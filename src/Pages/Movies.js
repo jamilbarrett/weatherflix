@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 function MovieGetter({ weatherCode, genreIds }) {
-  const [movieData, setMovieData] = useState(null);
-  const apiKey = "3399b0a5f2c7b811aefbce412fc096dc"; 
+  const [movieData, setMovieData] = useState('');
+  const apiKey = "3399b0a5f2c7b811aefbce412fc096dc";
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -12,7 +12,10 @@ function MovieGetter({ weatherCode, genreIds }) {
         const response = await axios.get(
           `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreIdsString}`
         );
-        setMovieData(response.data.results);
+
+        // Shuffle the fetched movie array
+        const shuffledMovies = shuffleArray(response.data.results);
+        setMovieData(shuffledMovies);
       } catch (error) {
         console.log("Error getting movies", error);
       }
@@ -20,6 +23,15 @@ function MovieGetter({ weatherCode, genreIds }) {
 
     fetchMovies();
   }, [genreIds, apiKey]);
+
+  const shuffleArray = array => {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  };
 
   return (
     <div>
