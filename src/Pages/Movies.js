@@ -3,7 +3,7 @@ import axios from "axios";
 
 function MovieGetter({ weatherCode, genreIds }) {
   const [movieData, setMovieData] = useState(null);
-  const apiKey = "YOUR_TMDB_API_KEY"; // Replace with your actual TMDB API key
+  const apiKey = "3399b0a5f2c7b811aefbce412fc096dc"; 
 
   useEffect(() => {
     const fetchMovies = async () => {
