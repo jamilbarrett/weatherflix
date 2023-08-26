@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+
 function MovieGetter() {
   const [movieData, setMovieData] = useState('');
-  const movieURL = 'https://api.themoviedb.org/3/search/movie?query=Jack+Reacher&api_key=3399b0a5f2c7b811aefbce412fc096dc';
+  const movieURL = `'https://api.themoviedb.org/3/authentication/guest_session/new'`;
+
 
   useEffect(() => {
     axios.get(movieURL)
