@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import MovieGetter from "./Movies.js"
 
 
 
-function WeatherApp({weatherCode}) {
+function WeatherApp() {
   const [weatherData, setWeatherData] = useState('');
   const API_KEY = "e75fa3366c2144d28bb213247232308";
 

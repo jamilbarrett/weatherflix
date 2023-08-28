@@ -31,7 +31,7 @@ function MovieGetter({genreIds }) {
       const j = Math.floor(Math.random() * (i + 1));
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
-    return newArray;
+    return newArray.slice(0,3);
   };
 
   return (
@@ -54,6 +54,9 @@ function MovieGetter({genreIds }) {
       ) : (
         <p>Loading movie data...</p>
       )}
+
+      <button className="moviebtn" onClick>New Movie</button>
+
     </div>
   );
 }

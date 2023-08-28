@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import MovieGetter from './Pages/Movies'; 
-import Weather from './Pages/Weather'; 
+import MovieGetter from './Components/Movies'; 
+import Weather from './Components/Weather'; 
+import Header from './Components/Header';
+
 
 function App() {
   const [weatherCode, setWeatherCode] = useState(1000);
   const [genreIds, setGenreIds] = useState([28, 35]);
-  const [movieData, setMovieData] = useState([]);
 
-  const apiKey = "3399b0a5f2c7b811aefbce412fc096dc";
 
   const updatedGenreIds = (weatherCode) => {
     switch (weatherCode) {
@@ -69,45 +68,14 @@ function App() {
     }
   };
 
-  const fetchMovies = () => {
-    try {
-      const genreIdsString = genreIds.join(",");
-      const response = axios.get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreIdsString}`
-      );
-      const shuffledMovies = shuffleArray(response.data.results);
-      setMovieData(shuffledMovies);
-    } catch (error) {
-      console.log("Error getting movies", error);
-    }
-  };
-
-  const shuffleArray = (array) => {
-    const newArray = [...array];
-    for (let i = newArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
-    }
-    return newArray;
-  };
-
-  useEffect(() => {
-    updatedGenreIds(weatherCode);
-  }, [weatherCode]);
-
-  useEffect(() => {
-    fetchMovies();
-  }, [genreIds, apiKey]);
-
-  const generateMovie = () => {
-    fetchMovies();
-  };
+ 
+  // };
 
   return (
     <div>
+      <Header/>
       <Weather weatherCode={weatherCode} />
       <MovieGetter weatherCode={weatherCode} genreIds={genreIds} />
-      <button className="moviebtn" onClick={generateMovie}>New Movie</button>
     </div>
   );
 }
