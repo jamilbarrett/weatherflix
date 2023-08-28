@@ -1,18 +1,19 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-function MovieGetter({ weatherCode, genreIds }) {
-  const [movieData, setMovieData] = useState('');
+function MovieGetter({genreIds }) {
+  const [movieData, setMovieData] = useState([]);
   const apiKey = "3399b0a5f2c7b811aefbce412fc096dc";
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const genreIdsString = genreIds.join(",");
+
         const response = await axios.get(
           `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreIdsString}`
         );
-
+        
         // Shuffle the fetched movie array
         const shuffledMovies = shuffleArray(response.data.results);
         setMovieData(shuffledMovies);
@@ -35,7 +36,7 @@ function MovieGetter({ weatherCode, genreIds }) {
 
   return (
     <div>
-      {movieData ? (
+      {movieData.length > 0 ? (
         <div>
           <h1>Recommended Movies</h1>
           {movieData.map(movie => (
