@@ -1,6 +1,6 @@
 function Header () {
     <>
-    <a href="Sign In">Sign In/Join</a>
+    <a href="Sign In/Join">Sign In/Join</a>
     </>
 }
 
