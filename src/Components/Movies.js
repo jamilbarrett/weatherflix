@@ -1,41 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 
-function MovieGetter({weatherCode, genreIds }) {
+function MovieGetter({ weatherCode }) {
   const [movieData, setMovieData] = useState([]);
   const apiKey = "3399b0a5f2c7b811aefbce412fc096dc";
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      try {
-
-        const genreIds = mapWeatherCodeToGenreIds(weatherCode)
-        const genreIdsString = genreIds.join(",");
-
-        const response = await axios.get(
-          `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreIdsString}`
-        );
-        
-        // Shuffle the fetched movie array
-        const shuffledMovies = shuffleArray(response.data.results);
-        setMovieData(shuffledMovies);
-      } catch (error) {
-        console.log("Error getting movies", error);
-      }
-    };
-
-    fetchMovies();
-  }, [genreIds, apiKey]);
-
-  const mapWeatherCodeToGenreIds = (code) => {
-    switch (weatherCode) {
+  const mapWeatherCodeToGenreIds = useCallback(code => {
+    switch (code) {
       case 1000: // Sunny
       case 1003: // Partly Cloudy
       case 1006: // Cloudy
       case 1030: // Mist
-        mapWeatherCodeToGenreIds([37]);
-        break;
-      // All instances of rain below
+        return [28, 12, 16, 35];
+        // All instances of Rain
       case 1063:
       case 1072:
       case 1087:
@@ -56,9 +33,8 @@ function MovieGetter({weatherCode, genreIds }) {
       case 1243:
       case 1246:
       case 1276:
-        mapWeatherCodeToGenreIds([18, 27, 53, 99, 9648, 878, 80, 36, 14]);
-        break;
-      // All instances of snow
+        return [9648, 18, 99, 80, 99];
+        // All instances of Snow
       case 1066:
       case 1114:
       case 1117:
@@ -78,13 +54,32 @@ function MovieGetter({weatherCode, genreIds }) {
       case 1264:
       case 1279:
       case 1282:
-        mapWeatherCodeToGenreIds([12, 10751, 10402]);
-        break;
+        return [10752];
       default:
-        // Default to Comedy, Action
-        mapWeatherCodeToGenreIds([37]);
+        return [80];
+    }
+  }, []);
+
+  const fetchMovies = async () => {
+    try {
+      const genreIds = mapWeatherCodeToGenreIds(weatherCode);
+      const genreIdsString = genreIds.join(",");
+
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&with_genres=${genreIdsString}`
+      );
+
+      const shuffledMovies = shuffleArray(response.data.results);
+      setMovieData(shuffledMovies);
+    } catch (error) {
+      console.log("Error getting movies", error);
     }
   };
+
+  useEffect(() => {
+    fetchMovies(); 
+  }, [weatherCode, mapWeatherCodeToGenreIds]);
+
 
 
   const shuffleArray = array => {
@@ -93,8 +88,14 @@ function MovieGetter({weatherCode, genreIds }) {
       const j = Math.floor(Math.random() * (i + 1));
       [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
-    return newArray.slice(0,3);
+    return newArray.slice(0, 3);
   };
+
+  const handleNewMovieClick = async e => {
+    e.preventDefault(); // Prevent the default behavior
+    await fetchMovies(); // Call the fetchMovies function to get new movie data
+  };
+
 
   return (
     <div>
@@ -117,8 +118,9 @@ function MovieGetter({weatherCode, genreIds }) {
         <p>Loading movie data...</p>
       )}
 
-      <button className="moviebtn" onClick>New Movie</button>
-
+      <button className="moviebtn" onClick={handleNewMovieClick}>
+        New Movie
+      </button>
     </div>
   );
 }
