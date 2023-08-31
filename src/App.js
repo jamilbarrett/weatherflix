@@ -5,7 +5,7 @@ import Header from './Components/Header';
 
 function App() {
   const [weatherData, setWeatherData] = useState('');
-  const [genreIds, setGenreIds] = useState([]);
+  const [genreIds] = useState([]);
 
   return (
     <div>
