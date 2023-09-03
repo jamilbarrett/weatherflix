@@ -103,7 +103,7 @@ function MovieGetter({ weatherCode }) {
         <div>
           <h1>Recommended Movies</h1>
           {movieData.map(movie => (
-            <div key={movie.id}>
+            <div className="movie-display" key={movie.id}>
               <p>Title: {movie.title}</p>
               <p>Release Date: {movie.release_date}</p>
               <p>Rating: {movie.vote_average}</p>
