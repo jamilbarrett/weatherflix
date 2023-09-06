@@ -102,17 +102,19 @@ function MovieGetter({ weatherCode }) {
       {movieData.length > 0 ? (
         <div>
           <h1>Recommended Movies</h1>
-          {movieData.map(movie => (
-            <div className="movie-display" key={movie.id}>
-              <p>Title: {movie.title}</p>
-              <p>Release Date: {movie.release_date}</p>
-              <p>Rating: {movie.vote_average}</p>
-              <img
-                src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                alt={movie.title}
-              />
-            </div>
-          ))}
+          <div className="movie-container">
+            {movieData.map(movie => (
+              <div className="movie-card" key={movie.id}>
+                <p>Title: {movie.title}</p>
+                <p>Release Date: {movie.release_date}</p>
+                <p>Rating: {movie.vote_average}</p>
+                <img
+                  src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                  alt={movie.title}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <p>Loading movie data...</p>
