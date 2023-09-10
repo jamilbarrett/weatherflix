@@ -41,7 +41,7 @@ function WeatherApp() {
   const { current } = weatherData;
 
   return (
-    <div>
+    <div className="bg-zinc-700">
       <h1>Current Weather at Your Location</h1>
       <p>Temperature: {current.temp_f} °F</p>
       <p>Weather: {current.condition.text}</p>

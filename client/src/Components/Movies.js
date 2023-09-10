@@ -98,17 +98,14 @@ function MovieGetter({ weatherCode }) {
 
 
   return (
-    <div>
+    <div className="bg-zinc-700">
       {movieData.length > 0 ? (
         <div>
-          <h1>Recommended Movies</h1>
-          <div className="movie-container">
+          <h1 className="text-white text-2xl p-5">Recommended Movies</h1>
+          <div className="movie-container grid grid-cols-3 divide-x">
             {movieData.map(movie => (
               <div className="movie-card" key={movie.id}>
-                <p>Title: {movie.title}</p>
-                <p>Release Date: {movie.release_date}</p>
-                <p>Rating: {movie.vote_average}</p>
-                <img
+                <img className="flex justify-center rounded-lg w-96 h-48 p-4 ml-0 border-none"
                   src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                   alt={movie.title}
                 />
@@ -120,7 +117,7 @@ function MovieGetter({ weatherCode }) {
         <p>Loading movie data...</p>
       )}
 
-      <button className="moviebtn" onClick={handleNewMovieClick}>
+      <button className="bg-white hover:bg-stone-200  font-semibold py-2 px-4 rounded-full outline focus:outline-none" onClick={handleNewMovieClick}>
         New Movie
       </button>
     </div>
